@@ -85,5 +85,5 @@
     ]);
 
     //Global variable 
-    app.value("apiUrl", "https://synergy-sign-in.herokuapp.com");
+    app.value("apiUrl", "https://synergy-sign-in.herokuapp.com/api/");
 })();
