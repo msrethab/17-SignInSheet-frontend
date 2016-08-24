@@ -85,5 +85,5 @@
     ]);
 
     //Global variable 
-    app.value("apiUrl", "http://localhost:3000/api/");
+    app.value("apiUrl", "https://synergy-sign-in.herokuapp.com");
 })();
