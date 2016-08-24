@@ -2,6 +2,8 @@
 var express = require('express');
 var app = express();
 
+var port = process.env.PORT || 8080;
+
 //make express look in public directory for assets
 
 app.use(express.static(__dirname + '/'));
