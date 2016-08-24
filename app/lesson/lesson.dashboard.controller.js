@@ -119,7 +119,7 @@
             TeacherFactory.addTeacher(newTeacher)
                 .then(function(response) {
 
-                        vm.students.push(response.data.student);
+                        vm.teachers.push(response.data.teacher);
                         toastr.success('New Teacher Registered!');
                     },
                     function(error) {
