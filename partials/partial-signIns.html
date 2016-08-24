@@ -1,0 +1,52 @@
+<div class="container">
+    <!-- Synergy Logo -->
+    <div class="logo">
+        <img src="img/synergylogo.png" width="400px">
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h1>Please Check In For Your Private Lesson!</h1>
+            <div class="button">
+                <button ng-click="showModal= !showModal" class="btn btn-success btn-lg">New Student</button>
+            </div>
+            <modal template="studentModal" visible="showModal"></modal>
+            <modal template="termsOfServiceModal" visible="showTermsOfServiceModal"></modal>
+            <div class="selector col-md-4">
+                <label>Select your Teacher</label>
+                <ui-select ng-model="vm.teacherSelect" ng-disabled="vm.userIsTeacher && !vm.userIsAdmin" theme="bootstrap" append-to-body="true">
+                    <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="item in vm.teachers | filter: $select.search">
+                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        <small ng-bind-html="item.email | highlight: $select.search"></small>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="selector col-md-4">
+                <label>Select Student(s)</label>
+                <ui-select ng-model="vm.studentSelect" theme="bootstrap" append-to-body="true">
+                    <ui-select-match placeholder="Select or search a student in the list...">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="item in vm.students | filter: $select.search">
+                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        <small ng-bind-html="item.email | highlight: $select.search"></small>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="selector col-md-4">
+                <label>Select Lesson Duration</label>
+                <ui-select ng-model="vm.durationSelect" theme="bootstrap">
+                    <ui-select-match placeholder="Select your Lesson duration">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="item in vm.durationList | filter: $select.search">
+                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="button form-inline" ng-show="vm.userRole === 'user'">
+                <a class="termsOfService" ng-click="showTermsOfServiceModal = !showTermsOfServiceModal">I have read and agree to the Terms of Service.</a>
+                <input class="checkbox" ng-model="vm.termsAccepted" type="checkbox" value="">
+            </div>
+            <div class="button">
+                <button type="submit" ng-click="vm.addLesson(vm.teacherSelect._id, vm.studentSelect._id, vm.durationSelect.value)" class="btn btn-success btn-lg">Sign-in!</button>
+            </div>
+        </div>
+    </div>
+</div>

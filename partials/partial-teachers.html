@@ -1,0 +1,70 @@
+<div class="container" ng-controller="LessonDashboardController as ctrl">
+    <modal template="teacherModal" visible="showTeacherModal"></modal>
+    <div class="logo">
+        <img src="img/synergylogo.png" width="400px">
+    </div>
+    <div class="button">
+        <button ng-click="showTeacherModal= !showTeacherModal" class="btn btn-primary">Add Teacher</button>
+        <button ng-click="showRegistration= !showRegistration" class="btn btn-primary" ng-hide="showRegistration">Register new User</button>
+        <button ng-click="showRegistration= !showRegistration" class="btn btn-primary" ng-show="showRegistration">Hide Registration</button>
+    </div>
+    <div class="col-md-6 col-md-offset-3 panel panel-default" ng-show="showRegistration" ng-controller="AuthController as auth">
+        <div class="panel-body">
+            <div class="form-group">
+                <label>Name (required)</label>
+                <input type="" class="form-control" ng-model="auth.newName" placeholder="Required">
+                <label>Email (required)</label>
+                <input type="" class="form-control" ng-model="auth.newEmail" placeholder="Required">
+                <label>Password (required)</label>
+                <input type="password" class="form-control" ng-model="auth.newPassword" placeholder="Required">
+                <label>Confirm Password (required)</label>
+                <input type="password" class="form-control" ng-model="auth.newConfirmPassword" placeholder="Required">
+                <div class="selector">
+                    <label>Associated Teacher (required)</label>
+                    <ui-select ng-model="auth.newTeacher" theme="bootstrap">
+                        <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.teachers | filter: $select.search">
+                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            <small ng-bind-html="item.email | highlight: $select.search"></small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label>Role (required)</label>
+                <select type="" class="form-control button" ng-model="auth.newRole">
+                    <option value="teacher">Teacher</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <div class="button">
+                    <button type="submit" ng-click="auth.registerUser(auth.newName, auth.newEmail, auth.newPassword, auth.newConfirmPassword, auth.newTeacher._id, auth.newRole)" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-md-2 col-md-offset-10">
+        <label>Month Filter</label>
+        <div moment-picker="vm.monthFilter" format="MMMM YYYY" change="vm.countLessonsByTeacher(newValue)" min-view="year">
+            <input class="form-control" placeholder="Select month..." ng-model="vm.monthFilter" ng-model-options="{ updateOn: 'blur' }">
+        </div>
+    </div>
+    <table class="table table-striped table-condensed table-hover table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th class="col-md-3">Teacher</th>
+                <th class="col-md-2">Phone Number</th>
+                <th class="col-md-2">E-mail</th>
+                <th class="col-md-2">Independent</th>
+                <th class="col-md-3">Lessons in {{vm.monthFilter}}</th>
+            </tr>
+        </thead>
+        <!-- Binding lesson data from the lessons controller and repeating the data into the table rows -->
+        <tbody id="dataTable">
+            <tr ng-repeat="data in vm.teachers">
+                <td>{{data.name}}</td>
+                <td>{{data.phoneNumber | phonenumber}}</td>
+                <td>{{data.email | date: 'MM/dd/yy HH:mm:ss'}}</td>
+                <td>{{data.independent ?'yes':'no'}}</td>
+                <td>{{data.lessonCount}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,34 @@
+<div class="container">
+    <modal template="editTeacherModal" visible="showEditTeacherModal"></modal>
+    <modal template="changePasswordModal" visible="showChangePasswordModal"></modal>
+    <div class="logo">
+        <img src="img/synergylogo.png" width="400px">
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <img ng-src="/../../img/defaultProfile.png" class="profileImage" height="270" width="270">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body profileText">
+                <div>
+                    <h2>{{vm.currentTeacher.name}}</h2>
+                    <h4>Username: {{vm.username}}</h4>
+                </div>
+                </br>
+                <p>Email: {{vm.currentTeacher.email}}</p>
+                <p>Phone: {{vm.currentTeacher.phoneNumber}}</p>
+                <p>Address: {{vm.currentTeacher.streetAddress}}, {{vm.currentTeacher.city}} {{vm.currentTeacher.state}}, {{vm.currentTeacher.zip}}</p>
+                <p>Gender: {{vm.currentTeacher.gender}}</p>
+                <p>Independent: {{vm.currentTeacher.independent ?'yes':'no'}}</p>
+                <div class="profileButtons">
+                    <button ng-click="showEditTeacherModal= !showEditTeacherModal" class="btn btn-primary">Edit Profile</button>
+                    <button ng-click="showChangePasswordModal= !showChangePasswordModal" class="btn btn-primary">Change Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

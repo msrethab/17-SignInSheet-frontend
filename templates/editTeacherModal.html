@@ -1,0 +1,105 @@
+<div class="modal fade container" ng-controller="TeacherProfileController as ctrl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit Teacher Profile</h4>
+            </div>
+            <div class="modal-body" ng-transclude>
+                <form role="form">
+                    <div class="registrationForm form-group">
+                        <div class="col-xs-12">
+                            <label>Name</label>
+                            <input type="text" class="form-control" ng-model="ctrl.updatedTeacher.name" placeholder="">
+                            <label>Email</label>
+                            <input type="email" class="form-control" ng-model="ctrl.updatedTeacher.email" placeholder="">
+                            <label>Phone Number</label>
+                            <input type="tel" class="form-control" ng-model="ctrl.updatedTeacher.phoneNumber" placeholder="">
+                            <label>Street Address</label>
+                            <input type="text" class="form-control" ng-model="ctrl.updatedTeacher.streetAddress" placeholder="">
+                            <label>City</label>
+                            <input type="text" class="form-control" ng-model="ctrl.updatedTeacher.city" placeholder="">
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label>State</label>
+                            <select name="state" class="form-control" ng-model="ctrl.updatedTeacher.state">
+                                <option value="AL">AL</option>
+                                <option value="AK">AK</option>
+                                <option value="AZ">AZ</option>
+                                <option value="AR">AR</option>
+                                <option value="CA">CA</option>
+                                <option value="CO">CO</option>
+                                <option value="CT">CT</option>
+                                <option value="DE">DE</option>
+                                <option value="DC">DC</option>
+                                <option value="FL">FL</option>
+                                <option value="GA">GA</option>
+                                <option value="HI">HI</option>
+                                <option value="ID">ID</option>
+                                <option value="IL">IL</option>
+                                <option value="IN">IN</option>
+                                <option value="IA">IA</option>
+                                <option value="KS">KS</option>
+                                <option value="KY">KY</option>
+                                <option value="LA">LA</option>
+                                <option value="ME">ME</option>
+                                <option value="MD">MD</option>
+                                <option value="MA">MA</option>
+                                <option value="MI">MI</option>
+                                <option value="MN">MN</option>
+                                <option value="MS">MS</option>
+                                <option value="MO">MO</option>
+                                <option value="MT">MT</option>
+                                <option value="NE">NE</option>
+                                <option value="NV">NV</option>
+                                <option value="NH">NH</option>
+                                <option value="NJ">NJ</option>
+                                <option value="NM">NM</option>
+                                <option value="NY">NY</option>
+                                <option value="NC">NC</option>
+                                <option value="ND">ND</option>
+                                <option value="OH">OH</option>
+                                <option value="OK">OK</option>
+                                <option value="OR">OR</option>
+                                <option value="PA">PA</option>
+                                <option value="RI">RI</option>
+                                <option value="SC">SC</option>
+                                <option value="SD">SD</option>
+                                <option value="TN">TN</option>
+                                <option value="TX">TX</option>
+                                <option value="UT">UT</option>
+                                <option value="VT">VT</option>
+                                <option value="VA">VA</option>
+                                <option value="WA">WA</option>
+                                <option value="WV">WV</option>
+                                <option value="WI">WI</option>
+                                <option value="WY">WY</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label>Zip</label>
+                            <input type="number" class="form-control" ng-model="ctrl.updatedTeacher.zip" placeholder="">
+                        </div>
+                        <div class="col-xs-6">
+                            <label>Gender</label>
+                            <select type="" class="form-control" ng-model="ctrl.updatedTeacher.gender" placeholder="">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-6">
+                            <label>Independent?</label>
+                            <select type="" class="form-control" ng-model="ctrl.updatedTeacher.independent" placeholder="">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="button">
+                        <button type="submit" ng-click="ctrl.updateTeacher(vm.currentTeacher, ctrl.updatedTeacher); vm.getTeacherById(vm.teacherId)" data-dismiss="modal" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

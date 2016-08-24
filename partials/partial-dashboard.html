@@ -1,0 +1,119 @@
+<div class="container" ng-controller="LessonDashboardController as ctrl">
+    <modal template="studentModal" visible="showModal"></modal>
+    <modal template="lessonModal" visible="showLessonModal"></modal>
+    <div class="logo">
+        <img src="img/synergylogo.png" width="400px">
+    </div>
+    <div class="button">
+        <button ng-click="showModal= !showModal" class="btn btn-primary">Add Student</button>
+        <button ng-click="showLessonModal= !showLessonModal" class="btn btn-primary">Add Lesson</button>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Start Date</label>
+            <div class="input-group" moment-picker="ctrl.startDate" format="MM-DD-YYYY" min-view="month">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+                <input class="form-control" placeholder="Select a date" ng-model="ctrl.startDate" ng-model-options="{ updateOn: 'blur' }">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label>End Date</label>
+            <div class="input-group" moment-picker="ctrl.endDate" format="MM-DD-YYYY" min-view="month">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+                <input class="form-control" placeholder="Select a date" ng-model="ctrl.endDate" ng-model-options="{ updateOn: 'blur' }">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="selector">
+                <label>Filter by Student</label>
+                <ui-select ng-model="ctrl.studentFilter" theme="bootstrap" append-to-body="true">
+                    <ui-select-match placeholder="Select student">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="item in vm.students | filter: $select.search">
+                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        <small ng-bind-html="item.email | highlight: $select.search"></small>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="selector">
+                <label>Filter by Lesson Duration</label>
+                <ui-select ng-model="ctrl.durationFilter" theme="bootstrap" append-to-body="true">
+                    <ui-select-match placeholder="Select duration">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="item in vm.durationList | filter: $select.search">
+                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+        <div class="button">
+            <button type="submit" ng-click="ctrl.startDate = ctrl.today; ctrl.endDate = ctrl.today; ctrl.studentFilter = ''; ctrl.durationFilter = ''; ctrl.searchLessons(ctrl.startDate, ctrl.endDate, ctrl.studentFilter)" class="btn btn-primary">Default Filters</button>
+            <button type="submit" ng-click="ctrl.searchLessons(ctrl.startDate, ctrl.endDate, ctrl.studentFilter, ctrl.durationFilter)" class="btn btn-primary">Apply Filters</button>
+        </div>
+    </div>
+    <div class="col-md-2 col-md-offset-10">
+        <label>{{ctrl.lessons.length}} lessons returned</label>
+    </div>
+    <table class="table table-striped table-condensed table-hover table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th class="col-md-3">Teacher</th>
+                <th class="col-md-3">Student(s)</th>
+                <th class="col-md-2">Sign in Time</th>
+                <th class="col-md-2">Lesson Length</th>
+                <th class="col-md-2">Tools</th>
+            </tr>
+        </thead>
+        <!-- Binding lesson data from the lessons controller and repeating the data into the table rows -->
+        <tbody id="dataTable">
+            <tr ng-repeat="data in ctrl.lessons  | orderBy: 'signedInDate' : reverse">
+                <td>
+                    <span ng-hide="editing">{{data.teacher.name}}</span>
+                    <ui-select ng-model="ctrl.newTeacher" ng-disabled="vm.userIsTeacher && !vm.userIsAdmin" ng-show="editing" theme="bootstrap">
+                        <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.teachers | filter: $select.search">
+                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            <small ng-bind-html="item.email | highlight: $select.search"></small>
+                        </ui-select-choices>
+                    </ui-select>
+                </td>
+                <td>
+                    <span ng-hide="editing">{{data.student[0].name}}</span>
+                    <ui-select ng-model="ctrl.newStudent" ng-show="editing" theme="bootstrap">
+                        <ui-select-match placeholder="Select or search a student in the list...">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.students | filter: $select.search">
+                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                            <small ng-bind-html="item.email | highlight: $select.search"></small>
+                        </ui-select-choices>
+                    </ui-select>
+                </td>
+                <td>
+                    <span ng-hide="editing">{{data.signedInDate | date: 'MM-dd-yy HH:mm:ss'}}</span>
+                    <div class="form-group" ng-show="editing">
+                        <div moment-picker="ctrl.newSignInDate" format="MM-DD-YYYY HH:mm" min-view="month">
+                            <input class="form-control" placeholder="Select a date" ng-model="ctrl.newSignInDate" ng-model-options="{ updateOn: 'blur' }">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span ng-hide="editing">{{data.duration}} minutes</span>
+                    <ui-select ng-model="ctrl.newDuration" ng-show="editing" theme="bootstrap">
+                        <ui-select-match placeholder="Select your Lesson duration">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.durationList | filter: $select.search">
+                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </td>
+                <td>
+                    <a href="" ng-click="editing = !editing; ctrl.newTeacher = data.teacher; ctrl.newStudent = data.student[0]">edit <span class="glyphicon glyphicon-pencil"></span> </a>
+                    <a href="" ng-click="ctrl.editLesson(data, ctrl.newTeacher, ctrl.newStudent, ctrl.newSignInDate, ctrl.newDuration); editing = false">save <span class="glyphicon glyphicon-floppy-disk"></span> </a>
+                    <a href="" ng-click="ctrl.deleteLesson(data, ctrl.username)">delete <span class="glyphicon glyphicon-remove"></span></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
