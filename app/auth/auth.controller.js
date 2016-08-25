@@ -58,7 +58,8 @@
             if (name && email && password && confirmPassword && teacherId && role) {
 
                 if (password === confirmPassword) {
-
+                    
+                    email = email.toLowerCase();
                     var newUser = { name: name, email: email, password: password, confirmPassword: confirmPassword, teacherId: teacherId, role: role }
 
                     AuthFactory.registerUser(newUser).then(function(response) {
@@ -121,6 +122,7 @@
         //Creating function to call login user from AuthFactory and store login status
         function loginUser(loginEmail, loginPassword) {
             logoutUser();
+            loginEmail = loginEmail.toLowerCase();
             AuthFactory.loginUser(loginEmail, loginPassword).then(function(response) {
                     vm.username = localStorageService.get("username");
                     vm.userRole = localStorageService.get("role");
