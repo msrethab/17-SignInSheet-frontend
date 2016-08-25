@@ -11,40 +11,40 @@
 
     /* @ngInject */
     function LessonDashboardController(LessonFactory, $stateParams, localStorageService, StudentFactory, TeacherFactory) {
-        var vm = this;
-        vm.title = 'LessonDashboardController';
-        vm.deleteLesson = deleteLesson;
-        vm.editLesson = editLesson;
-        vm.searchLessons = searchLessons;
-        vm.addTeacher = addTeacher;
+        var ctrl = this;
+        ctrl.title = 'LessonDashboardController';
+        ctrl.deleteLesson = deleteLesson;
+        ctrl.editLesson = editLesson;
+        ctrl.searchLessons = searchLessons;
+        ctrl.addTeacher = addTeacher;
 
-        vm.username = localStorageService.get("username");
-        vm.teacherId = localStorageService.get("teacherId");
-        vm.userRole = localStorageService.get("role");
+        ctrl.username = localStorageService.get("username");
+        ctrl.teacherId = localStorageService.get("teacherId");
+        ctrl.userRole = localStorageService.get("role");
 
-        vm.today = new Date();
+        ctrl.today = new Date();
 
-        vm.startDate = vm.today;
-        vm.endDate = vm.today;
-        vm.studentFilter = '';
-        vm.durationFilter = '';
+        ctrl.startDate = ctrl.today;
+        ctrl.endDate = ctrl.today;
+        ctrl.studentFilter = '';
+        ctrl.durationFilter = '';
 
         activate();
 
         ////////////////
 
         function activate() {
-            searchLessons(vm.startDate, vm.endDate);
+            searchLessons(ctrl.startDate, ctrl.endDate);
         }
 
         //Creating function to call LessonFactory's deleteLesson method to archive lessons and hide from users
         function deleteLesson(data, username) {
-            var index = vm.lessons.indexOf(data);
+            var index = ctrl.lessons.indexOf(data);
             LessonFactory.deleteLesson(data, username).then(function(response) {
 
-                    vm.lessonDel = response.data;
+                    ctrl.lessonDel = response.data;
                     toastr.success('Lesson Successfully Deleted!');
-                    vm.lessons.splice(index, 1);
+                    ctrl.lessons.splice(index, 1);
 
                 },
                 function(error) {
@@ -59,7 +59,7 @@
         //Creating function to call LessonFactory's editLesson method to update lessons
         function editLesson(data, newTeacher, newStudent, newDateTime, newDuration) {
 
-            var updatedLesson = { _id: data._id, teacher: newTeacher._id, student: newStudent._id, signedInDate: moment(newDateTime, 'MM-DD-YYYY HH:mm').toDate(), duration: newDuration.value, createdBy: vm.username};
+            var updatedLesson = { _id: data._id, teacher: newTeacher._id, student: newStudent._id, signedInDate: moment(newDateTime, 'MM-DD-YYYY HH:mm').toDate(), duration: newDuration.value, createdBy: ctrl.username};
  
             //creating version history by cloning previous version history and stripping out self references to avoid JSON parsing loop
             updatedLesson.previousVersion = data.previousVersion;
@@ -69,9 +69,9 @@
             LessonFactory.editLesson(updatedLesson)
                 .then(function(response) { 
 
-                        vm.newStudent = '';
-                        vm.newSignInDate ='';
-                        vm.newDuration = '';
+                        ctrl.newStudent = '';
+                        ctrl.newSignInDate ='';
+                        ctrl.newDuration = '';
 
                         toastr.success('Lesson Updated!');
                     },
@@ -90,16 +90,16 @@
             startDate = new Date(startDate).setHours(0, 0, 0, 0);
             endDate = new Date(endDate).setHours(23, 59, 59, 999);
 
-            vm.searchQuery = { startDate: startDate, endDate: endDate, student: studentFilter, duration: durationFilter };
+            ctrl.searchQuery = { startDate: startDate, endDate: endDate, student: studentFilter, duration: durationFilter };
 
-            if (vm.userRole === 'teacher') {
-                vm.searchQuery.teacherId = vm.teacherId;
+            if (ctrl.userRole === 'teacher') {
+                ctrl.searchQuery.teacherId = ctrl.teacherId;
             }
 
-            LessonFactory.searchLessons(vm.searchQuery)
+            LessonFactory.searchLessons(ctrl.searchQuery)
                 .then(function(response) {
 
-                        vm.lessons = (response.data.lessons);
+                        ctrl.lessons = (response.data.lessons);
                         toastr.success('Lessons Loaded!');
                     },
                     function(error) {
