@@ -94,7 +94,7 @@
                 <td>
                     <span ng-hide="editing">{{data.signedInDate | date: 'MM-dd-yy HH:mm:ss'}}</span>
                     <div class="form-group" ng-show="editing">
-                        <div moment-picker="ctrl.newSignInDate" format="MM-DD-YYYY HH:mm" min-view="month">
+                        <div moment-picker="ctrl.newSignInDate" format="MM-DD-YY HH:mm" min-view="month">
                             <input class="form-control" placeholder="Select a date" ng-model="ctrl.newSignInDate" ng-model-options="{ updateOn: 'blur' }">
                         </div>
                     </div>
@@ -109,9 +109,9 @@
                     </ui-select>
                 </td>
                 <td>
-                    <a href="" ng-click="editing = !editing; ctrl.newTeacher = data.teacher; ctrl.newStudent = data.student[0]">edit <span class="glyphicon glyphicon-pencil"></span> </a>
-                    <a href="" ng-click="ctrl.editLesson(data, ctrl.newTeacher, ctrl.newStudent, ctrl.newSignInDate, ctrl.newDuration); editing = false">save <span class="glyphicon glyphicon-floppy-disk"></span> </a>
-                    <a href="" ng-click="ctrl.deleteLesson(data, ctrl.username)">delete <span class="glyphicon glyphicon-remove"></span></a>
+                    <a href="" ng-click="editing = !editing; ctrl.newTeacher = data.teacher; ctrl.newStudent = data.student[0]">edit <span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="" ng-click="ctrl.editLesson(data, ctrl.newTeacher, ctrl.newStudent, ctrl.newSignInDate, ctrl.newDuration); editing = false">save <span class="glyphicon glyphicon-floppy-disk"></span></a>
+                    <a href="" ng-click="ctrl.deleteLesson(data, ctrl.username)">del <span class="glyphicon glyphicon-remove"></span></a>
                 </td>
             </tr>
         </tbody>

@@ -7,10 +7,10 @@
         .module('app')
         .controller('LessonDashboardController', LessonDashboardController);
 
-    LessonDashboardController.$inject = ['LessonFactory', '$stateParams', 'localStorageService', 'StudentFactory', 'TeacherFactory'];
+    LessonDashboardController.$inject = ['$scope', 'LessonFactory', '$stateParams', 'localStorageService', 'StudentFactory', 'TeacherFactory'];
 
     /* @ngInject */
-    function LessonDashboardController(LessonFactory, $stateParams, localStorageService, StudentFactory, TeacherFactory) {
+    function LessonDashboardController($scope, LessonFactory, $stateParams, localStorageService, StudentFactory, TeacherFactory) {
         var ctrl = this;
         ctrl.title = 'LessonDashboardController';
         ctrl.deleteLesson = deleteLesson;
@@ -59,7 +59,19 @@
         //Creating function to call LessonFactory's editLesson method to update lessons
         function editLesson(data, newTeacher, newStudent, newDateTime, newDuration) {
 
-            var updatedLesson = { _id: data._id, teacher: newTeacher._id, student: newStudent._id, signedInDate: moment(newDateTime, 'MM-DD-YYYY HH:mm').toDate(), duration: newDuration.value, createdBy: ctrl.username};
+            var updatedLesson = { _id: data._id, teacher: newTeacher._id, student: newStudent._id, createdBy: ctrl.username};
+
+            if (newDateTime){
+                updatedLesson.signedInDate =  moment(newDateTime, 'MM-DD-YYYY HH:mm').toDate();
+            } else{
+                updatedLesson.signedInDate = data.signedInDate;
+            }
+
+            if (newDuration){
+                updatedLesson.duration = newDuration.value;
+            } else {
+                updatedLesson.duration = data.duration;
+            }
  
             //creating version history by cloning previous version history and stripping out self references to avoid JSON parsing loop
             updatedLesson.previousVersion = data.previousVersion;
@@ -100,7 +112,6 @@
                 .then(function(response) {
 
                         ctrl.lessons = (response.data.lessons);
-                        toastr.success('Lessons Loaded!');
                     },
                     function(error) {
                         if (typeof error === 'object') {
@@ -119,7 +130,7 @@
             TeacherFactory.addTeacher(newTeacher)
                 .then(function(response) {
 
-                        vm.teachers.push(response.data.teacher);
+                        $scope.vm.teachers.push(response.data.teacher);
                         toastr.success('New Teacher Registered!');
                     },
                     function(error) {

@@ -75,7 +75,6 @@
                 .then(function(response) {
 
                         vm.lessons = response.data.lessons;
-                        toastr.success('Lessons Loaded!');
 
                     },
                     function(error) {
@@ -135,8 +134,6 @@
                 .then(function(response) {
 
                         vm.students = response.data.students;
-                        toastr.success('Students Loaded!');
-
                     },
                     function(error) {
                         if (typeof error === 'object') {
@@ -175,7 +172,6 @@
                 .then(function(response) {
 
                         vm.teachers = response.data.teachers;
-                        toastr.success('Teachers Loaded!');
 
                     },
                     function(error) {
@@ -194,7 +190,6 @@
                 .then(function(response) {
 
                         vm.currentTeacher = response.data.teacher;
-                        toastr.success('Current Teacher Loaded!');
                         if (vm.userRole = 'teacher') {
                             vm.teacherSelect = vm.currentTeacher;
                         }

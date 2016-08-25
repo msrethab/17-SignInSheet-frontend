@@ -315,18 +315,3 @@ h1 {
     text-align: left;
 }
 
-
-/* Styling the footer */
-
-.centFooter {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-footer {
-    font-size: 0.75em;
-    clear: both;
-    padding-top: 50px color: #ccc;
-    text-align: center;
-}

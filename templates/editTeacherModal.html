@@ -10,19 +10,19 @@
                     <div class="registrationForm form-group">
                         <div class="col-xs-12">
                             <label>Name</label>
-                            <input type="text" class="form-control" ng-model="ctrl.updatedTeacher.name" placeholder="">
+                            <input type="text" class="form-control" ng-model="vm.currentTeacher.name" placeholder="">
                             <label>Email</label>
-                            <input type="email" class="form-control" ng-model="ctrl.updatedTeacher.email" placeholder="">
+                            <input type="email" class="form-control" ng-model="vm.currentTeacher.email" placeholder="">
                             <label>Phone Number</label>
-                            <input type="tel" class="form-control" ng-model="ctrl.updatedTeacher.phoneNumber" placeholder="">
+                            <input type="tel" class="form-control" ng-model="vm.currentTeacher.phoneNumber" placeholder="">
                             <label>Street Address</label>
-                            <input type="text" class="form-control" ng-model="ctrl.updatedTeacher.streetAddress" placeholder="">
+                            <input type="text" class="form-control" ng-model="vm.currentTeacher.streetAddress" placeholder="">
                             <label>City</label>
-                            <input type="text" class="form-control" ng-model="ctrl.updatedTeacher.city" placeholder="">
+                            <input type="text" class="form-control" ng-model="vm.currentTeacher.city" placeholder="">
                         </div>
                         <div class="form-group col-xs-6">
                             <label>State</label>
-                            <select name="state" class="form-control" ng-model="ctrl.updatedTeacher.state">
+                            <select name="state" class="form-control" ng-model="vm.currentTeacher.state">
                                 <option value="AL">AL</option>
                                 <option value="AK">AK</option>
                                 <option value="AZ">AZ</option>
@@ -78,25 +78,25 @@
                         </div>
                         <div class="form-group col-xs-6">
                             <label>Zip</label>
-                            <input type="number" class="form-control" ng-model="ctrl.updatedTeacher.zip" placeholder="">
+                            <input type="number" class="form-control" ng-model="vm.currentTeacher.zip" placeholder="">
                         </div>
                         <div class="col-xs-6">
                             <label>Gender</label>
-                            <select type="" class="form-control" ng-model="ctrl.updatedTeacher.gender" placeholder="">
+                            <select type="" class="form-control" ng-model="vm.currentTeacher.gender" placeholder="">
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
                         </div>
                         <div class="col-xs-6">
                             <label>Independent?</label>
-                            <select type="" class="form-control" ng-model="ctrl.updatedTeacher.independent" placeholder="">
+                            <select type="" class="form-control" ng-model="vm.currentTeacher.independent" placeholder="">
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </select>
                         </div>
                     </div>
                     <div class="button">
-                        <button type="submit" ng-click="ctrl.updateTeacher(vm.currentTeacher, ctrl.updatedTeacher); vm.getTeacherById(vm.teacherId)" data-dismiss="modal" class="btn btn-primary">Submit</button>
+                        <button type="submit" ng-click="ctrl.updateTeacher(vm.currentTeacher)" data-dismiss="modal" class="btn btn-primary">Save Changes</button>
                     </div>
                 </form>
             </div>
