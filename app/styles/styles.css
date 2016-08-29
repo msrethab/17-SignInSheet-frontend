@@ -315,3 +315,16 @@ h1 {
     text-align: left;
 }
 
+/* Styling Welcome Screen */
+
+.welcomeMsg{
+    margin-top: 10%;
+}
+
+.welcomeMsg h1{
+    font-size: 3em;
+}
+
+.topMsg{
+    margin-bottom: 10%;
+}

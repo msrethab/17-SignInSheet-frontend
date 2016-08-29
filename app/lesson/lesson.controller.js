@@ -7,10 +7,10 @@
         .module('app')
         .controller('LessonController', LessonController);
 
-    LessonController.$inject = ['$scope', 'LessonFactory', '$stateParams', 'localStorageService', 'StudentFactory', 'TeacherFactory'];
+    LessonController.$inject = ['$scope', '$timeout', 'LessonFactory', '$stateParams', 'localStorageService', 'StudentFactory', 'TeacherFactory'];
 
     /* @ngInject */
-    function LessonController($scope, LessonFactory, $stateParams, localStorageService, StudentFactory, TeacherFactory) {
+    function LessonController($scope, $timeout, LessonFactory, $stateParams, localStorageService, StudentFactory, TeacherFactory) {
         var vm = this;
         vm.title = 'LessonController';
         vm.getLessons = getLessons;
@@ -101,6 +101,11 @@
 
                     LessonFactory.addLesson(newLesson)
                         .then(function(response) {
+                                vm.signedInTeacher = vm.teacherSelect.name;
+                                vm.signedInStudent = vm.studentSelect.name;
+                                vm.userSigningIn = true;
+
+                                $timeout(function(){vm.userSigningIn = false}, 5000);
 
                                 if (vm.userRole === 'user') {
                                     vm.teacherSelect = '';
@@ -110,7 +115,7 @@
                                 vm.termsAccepted = false;
 
                                 toastr.success('Thank you for signing in! Lesson created!');
-                                $scope.$broadcast('lessonAdded', { lesson: response.data.lesson });
+                                $scope.$broadcast('lessonAdded', { lesson: response.data.newLesson });
                             },
                             function(error) {
                                 if (typeof error === 'object') {

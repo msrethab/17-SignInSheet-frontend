@@ -29,9 +29,9 @@
         ctrl.studentFilter = '';
         ctrl.durationFilter = '';
 
-        $scope.$on('lessonAdded', function(event, args){
+        $scope.$on('lessonAdded', function(event, args) {
             ctrl.newLesson = args.lesson;
-            ctrl.searchLessons(ctrl.searchQuery.startDate, ctrl.searchQuery.endDate, ctrl.searchQuery.student, ctrl.searchQuery.duration);
+            ctrl.lessons.push(ctrl.newLesson);
         })
 
         activate();
@@ -64,33 +64,34 @@
         //Creating function to call LessonFactory's editLesson method to update lessons
         function editLesson(data, newTeacher, newStudent, newDateTime, newDuration) {
 
-            var updatedLesson = { _id: data._id, teacher: newTeacher._id, student: newStudent._id, createdBy: ctrl.username};
+            var updatedLesson = { _id: data._id, teacher: newTeacher._id, student: newStudent._id, createdBy: ctrl.username };
 
-            if (newDateTime){
-                updatedLesson.signedInDate =  moment(newDateTime, 'MM-DD-YYYY HH:mm').toDate();
-            } else{
+            if (newDateTime) {
+                updatedLesson.signedInDate = moment(newDateTime, 'MM-DD-YYYY HH:mm').toDate();
+            } else {
                 updatedLesson.signedInDate = data.signedInDate;
             }
 
-            if (newDuration){
+            if (newDuration) {
                 updatedLesson.duration = newDuration.value;
             } else {
                 updatedLesson.duration = data.duration;
             }
- 
+
             //creating version history by cloning previous version history and stripping out self references to avoid JSON parsing loop
             updatedLesson.previousVersion = data.previousVersion;
             data.previousVersion = [];
             updatedLesson.previousVersion.push(data);
 
             LessonFactory.editLesson(updatedLesson)
-                .then(function(response) { 
+                .then(function(response) {
 
                         ctrl.newStudent = '';
-                        ctrl.newSignInDate ='';
+                        ctrl.newSignInDate = '';
                         ctrl.newDuration = '';
 
                         toastr.success('Lesson Updated!');
+                        ctrl.searchLessons(ctrl.searchQuery.startDate, ctrl.searchQuery.endDate, ctrl.searchQuery.student, ctrl.searchQuery.duration);
                     },
                     function(error) {
                         if (typeof error === 'object') {
@@ -113,7 +114,7 @@
                 ctrl.searchQuery.teacherId = ctrl.teacherId;
             }
 
-            if(ctrl.userRole === 'admin' && teacherFilter){
+            if (ctrl.userRole === 'admin' && teacherFilter) {
                 ctrl.searchQuery.teacherId = teacherFilter._id;
             }
 
@@ -121,7 +122,6 @@
                 .then(function(response) {
 
                         ctrl.lessons = (response.data.lessons);
-                        toastr.success('Search successful!')
                     },
                     function(error) {
                         if (typeof error === 'object') {

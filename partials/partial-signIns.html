@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-hide="vm.userSigningIn">
     <!-- Synergy Logo -->
     <div class="logo">
         <img src="img/synergylogo.png" width="400px">
@@ -47,6 +47,14 @@
             <div class="button">
                 <button type="submit" ng-click="vm.addLesson(vm.teacherSelect._id, vm.studentSelect._id, vm.durationSelect.value)" class="btn btn-success btn-lg">Sign-in!</button>
             </div>
+        </div>
+    </div>
+</div>
+<div class="container welcomeMsg" ng-show="vm.userSigningIn">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h1 class="topMsg">Thank you for signing in, {{vm.signedInStudent}}!</h1>
+            <h1 class="btmMsg">Have fun taking a lesson with {{vm.signedInTeacher}}!</h1>
         </div>
     </div>
 </div>
