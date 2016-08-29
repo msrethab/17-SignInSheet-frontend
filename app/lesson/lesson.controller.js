@@ -7,10 +7,10 @@
         .module('app')
         .controller('LessonController', LessonController);
 
-    LessonController.$inject = ['LessonFactory', '$stateParams', 'localStorageService', 'StudentFactory', 'TeacherFactory'];
+    LessonController.$inject = ['$scope', 'LessonFactory', '$stateParams', 'localStorageService', 'StudentFactory', 'TeacherFactory'];
 
     /* @ngInject */
-    function LessonController(LessonFactory, $stateParams, localStorageService, StudentFactory, TeacherFactory) {
+    function LessonController($scope, LessonFactory, $stateParams, localStorageService, StudentFactory, TeacherFactory) {
         var vm = this;
         vm.title = 'LessonController';
         vm.getLessons = getLessons;
@@ -89,7 +89,7 @@
         //Creating function to call LessonFactory's addLesson method to add lesson
         function addLesson(teacherId, studentId, lessonDuration, lessonDateTime) {
 
-            if (vm.termsAccepted || vm.userRole=== 'admin' || vm.userRole === 'teacher') {
+            if (vm.termsAccepted || vm.userRole === 'admin' || vm.userRole === 'teacher') {
                 if (teacherId && studentId && lessonDuration) {
                     var newLesson = { teacher: teacherId, student: studentId, duration: lessonDuration, createdBy: vm.username }
 
@@ -108,8 +108,9 @@
                                 vm.studentSelect = '';
                                 vm.durationSelect = '';
                                 vm.termsAccepted = false;
-                                toastr.success('Thank you for signing in! Lesson created!');
 
+                                toastr.success('Thank you for signing in! Lesson created!');
+                                $scope.$broadcast('lessonAdded', { lesson: response.data.lesson });
                             },
                             function(error) {
                                 if (typeof error === 'object') {
@@ -121,7 +122,7 @@
                 } else {
                     toastr.error('Please select a teacher, student and duration!')
                 }
-            } else{
+            } else {
                 toastr.error('Please accept the Terms of Service to check in!')
             }
 

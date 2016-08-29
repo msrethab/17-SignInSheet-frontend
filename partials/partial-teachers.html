@@ -1,4 +1,4 @@
-<div class="container" ng-controller="LessonDashboardController as ctrl">
+<div class="container" ng-controller="LessonDashboardController as ctrl" ng-cloak>
     <modal template="teacherModal" visible="showTeacherModal"></modal>
     <div class="logo">
         <img src="img/synergylogo.png" width="400px">
@@ -31,11 +31,12 @@
                 </div>
                 <label>Role (required)</label>
                 <select type="" class="form-control button" ng-model="auth.newRole">
+                    <option value="user">User</option>
                     <option value="teacher">Teacher</option>
                     <option value="admin">Admin</option>
                 </select>
                 <div class="button">
-                    <button type="submit" ng-click="auth.registerUser(auth.newName, auth.newEmail, auth.newPassword, auth.newConfirmPassword, auth.newTeacher._id, auth.newRole)" class="btn btn-primary">Submit</button>
+                    <button type="submit" ng-click="auth.registerUser(auth.newName, auth.newEmail, auth.newPassword, auth.newConfirmPassword, auth.newTeacher._id, auth.newRole); showRegistration = false" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </div>

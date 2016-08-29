@@ -29,6 +29,11 @@
         ctrl.studentFilter = '';
         ctrl.durationFilter = '';
 
+        $scope.$on('lessonAdded', function(event, args){
+            ctrl.newLesson = args.lesson;
+            ctrl.searchLessons(ctrl.searchQuery.startDate, ctrl.searchQuery.endDate, ctrl.searchQuery.student, ctrl.searchQuery.duration);
+        })
+
         activate();
 
         ////////////////
@@ -97,7 +102,7 @@
         }
 
         //Creating function to call LessonFactory's searchLessons method to advanced search
-        function searchLessons(startDate, endDate, studentFilter, durationFilter) {
+        function searchLessons(startDate, endDate, studentFilter, durationFilter, teacherFilter) {
 
             startDate = new Date(startDate).setHours(0, 0, 0, 0);
             endDate = new Date(endDate).setHours(23, 59, 59, 999);
@@ -108,10 +113,15 @@
                 ctrl.searchQuery.teacherId = ctrl.teacherId;
             }
 
+            if(ctrl.userRole === 'admin' && teacherFilter){
+                ctrl.searchQuery.teacherId = teacherFilter._id;
+            }
+
             LessonFactory.searchLessons(ctrl.searchQuery)
                 .then(function(response) {
 
                         ctrl.lessons = (response.data.lessons);
+                        toastr.success('Search successful!')
                     },
                     function(error) {
                         if (typeof error === 'object') {

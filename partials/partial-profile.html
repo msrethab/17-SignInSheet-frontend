@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-cloak>
     <modal template="editTeacherModal" visible="showEditTeacherModal"></modal>
     <modal template="changePasswordModal" visible="showChangePasswordModal"></modal>
     <div class="logo">
@@ -20,7 +20,7 @@
                 </div>
                 </br>
                 <p>Email: {{vm.currentTeacher.email}}</p>
-                <p>Phone: {{vm.currentTeacher.phoneNumber}}</p>
+                <p>Phone: {{vm.currentTeacher.phoneNumber | phonenumber}}</p>
                 <p>Address: {{vm.currentTeacher.streetAddress}}, {{vm.currentTeacher.city}} {{vm.currentTeacher.state}}, {{vm.currentTeacher.zip}}</p>
                 <p>Gender: {{vm.currentTeacher.gender}}</p>
                 <p>Independent: {{vm.currentTeacher.independent ?'yes':'no'}}</p>

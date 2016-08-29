@@ -1,4 +1,4 @@
-<div class="container" ng-controller="LessonDashboardController as ctrl">
+<div class="container" ng-cloak ng-controller="LessonDashboardController as ctrl">
     <modal template="studentModal" visible="showModal"></modal>
     <modal template="lessonModal" visible="showLessonModal"></modal>
     <div class="logo">
@@ -9,7 +9,7 @@
         <button ng-click="showLessonModal= !showLessonModal" class="btn btn-primary">Add Lesson</button>
     </div>
     <div class="form-group">
-        <div class="col-md-3">
+        <div class="col-md-3" ng-class="{'col-md-2': vm.userIsAdmin}">
             <label>Start Date</label>
             <div class="input-group" moment-picker="ctrl.startDate" format="MM-DD-YYYY" min-view="month">
                 <span class="input-group-addon">
@@ -18,13 +18,25 @@
                 <input class="form-control" placeholder="Select a date" ng-model="ctrl.startDate" ng-model-options="{ updateOn: 'blur' }">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" ng-class="{'col-md-2': vm.userIsAdmin}">
             <label>End Date</label>
             <div class="input-group" moment-picker="ctrl.endDate" format="MM-DD-YYYY" min-view="month">
                 <span class="input-group-addon">
                     <i class="glyphicon glyphicon-calendar"></i>
                 </span>
                 <input class="form-control" placeholder="Select a date" ng-model="ctrl.endDate" ng-model-options="{ updateOn: 'blur' }">
+            </div>
+        </div>
+        <div class="col-md-3" ng-if="vm.userIsAdmin">
+            <div class="selector">
+                <label>Filter by Teacher</label>
+                <ui-select ng-model="ctrl.teacherFilter" theme="bootstrap" append-to-body="true">
+                    <ui-select-match placeholder="Select teacher">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="item in vm.teachers | filter: $select.search">
+                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        <small ng-bind-html="item.email | highlight: $select.search"></small>
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
         <div class="col-md-3">
@@ -39,9 +51,9 @@
                 </ui-select>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" ng-class="{'col-md-2': vm.userIsAdmin}">
             <div class="selector">
-                <label>Filter by Lesson Duration</label>
+                <label>Filter by Duration</label>
                 <ui-select ng-model="ctrl.durationFilter" theme="bootstrap" append-to-body="true">
                     <ui-select-match placeholder="Select duration">{{$select.selected.name}}</ui-select-match>
                     <ui-select-choices repeat="item in vm.durationList | filter: $select.search">
@@ -50,9 +62,9 @@
                 </ui-select>
             </div>
         </div>
-        <div class="button">
-            <button type="submit" ng-click="ctrl.startDate = ctrl.today; ctrl.endDate = ctrl.today; ctrl.studentFilter = ''; ctrl.durationFilter = ''; ctrl.searchLessons(ctrl.startDate, ctrl.endDate, ctrl.studentFilter)" class="btn btn-primary">Default Filters</button>
-            <button type="submit" ng-click="ctrl.searchLessons(ctrl.startDate, ctrl.endDate, ctrl.studentFilter, ctrl.durationFilter)" class="btn btn-primary">Apply Filters</button>
+        <div class="button col-md-4 col-md-offset-4">
+            <button type="submit" ng-click="ctrl.startDate = ctrl.today; ctrl.endDate = ctrl.today; ctrl.studentFilter = ''; ctrl.durationFilter = ''; ctrl.teacherFilter = ''; ctrl.searchLessons(ctrl.startDate, ctrl.endDate, ctrl.studentFilter)" class="btn btn-primary">Clear Filters</button>
+            <button type="submit" ng-click="ctrl.searchLessons(ctrl.startDate, ctrl.endDate, ctrl.studentFilter, ctrl.durationFilter, ctrl.teacherFilter)" class="btn btn-primary">Apply Filters</button>
         </div>
     </div>
     <div class="col-md-2 col-md-offset-10">
@@ -62,7 +74,7 @@
         <thead>
             <tr>
                 <th class="col-md-3">Teacher</th>
-                <th class="col-md-3">Student(s)</th>
+                <th class="col-md-3">Student</th>
                 <th class="col-md-2">Sign in Time</th>
                 <th class="col-md-2">Lesson Length</th>
                 <th class="col-md-2">Tools</th>
