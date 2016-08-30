@@ -17,6 +17,7 @@
         ctrl.editLesson = editLesson;
         ctrl.searchLessons = searchLessons;
         ctrl.addTeacher = addTeacher;
+        ctrl.selectRow = selectRow;
 
         ctrl.username = localStorageService.get("username");
         ctrl.teacherId = localStorageService.get("teacherId");
@@ -122,6 +123,7 @@
                 .then(function(response) {
 
                         ctrl.lessons = (response.data.lessons);
+                        ctrl.selectedLesson = '';
                     },
                     function(error) {
                         if (typeof error === 'object') {
@@ -151,6 +153,12 @@
                         }
                     })
         }
+
+        function selectRow(selectedLesson) {
+            ctrl.lessons.forEach(function(lesson) {
+                lesson.classes = { currentVersion: (lesson === selectedLesson) };
+            });
+        };
     }
 
 
