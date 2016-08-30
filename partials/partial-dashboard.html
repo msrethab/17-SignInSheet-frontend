@@ -76,8 +76,8 @@
                 <th class="col-md-3">Teacher</th>
                 <th class="col-md-3">Student</th>
                 <th class="col-md-2">Sign in Time</th>
-                <th class="col-md-2">Lesson Length</th>
-                <th class="col-md-2">Tools</th>
+                <th class="col-md-2" ng-class="{'col-md-1': vm.userIsAdmin}">Duration</th>
+                <th class="col-md-2" ng-class="{'col-md-3': vm.userIsAdmin}">Tools</th>
             </tr>
         </thead>
         <!-- Binding lesson data from the lessons controller and repeating the data into the table rows -->
@@ -124,8 +124,42 @@
                     <a href="" ng-click="editing = !editing; ctrl.newTeacher = data.teacher; ctrl.newStudent = data.student[0]">edit <span class="glyphicon glyphicon-pencil"></span></a>
                     <a href="" ng-click="ctrl.editLesson(data, ctrl.newTeacher, ctrl.newStudent, ctrl.newSignInDate, ctrl.newDuration); editing = false">save <span class="glyphicon glyphicon-floppy-disk"></span></a>
                     <a href="" ng-click="ctrl.deleteLesson(data, ctrl.username)">del <span class="glyphicon glyphicon-remove"></span></a>
+                    <a href="" ng-show="vm.userIsAdmin" ng-click="vm.selectedLesson = data">{{data.previousVersion.length}} edits <span class="glyphicon glyphicon-time"></span></a>
                 </td>
             </tr>
         </tbody>
     </table>
+    <div ng-show="vm.userIsAdmin">
+        <label>Lesson Version History</label>
+        <table class="table table-striped table-condensed table-hover table-bordered table-responsive">
+            <thead>
+                <tr class="currentVersion">
+                    <th class="col-md-2">Teacher</th>
+                    <th class="col-md-2">Student</th>
+                    <th class="col-md-2">Sign in Time</th>
+                    <th class="col-md-2">Duration</th>
+                    <th class="col-md-2">Created By</th>
+                    <th class="col-md-2">Created Date</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable">
+                <tr>
+                    <td><label>{{vm.selectedLesson.teacher.name}}</label></td>
+                    <td><label>{{vm.selectedLesson.student[0].name}}</label></td>
+                    <td><label>{{vm.selectedLesson.signedInDate | date: 'MM-dd-yy HH:mm:ss'}}</label></td>
+                    <td><label>{{vm.selectedLesson.duration}}</label></td>
+                    <td><label>{{vm.selectedLesson.createdBy}}</label></td>
+                    <td><label>{{vm.selectedLesson.createdDate | date: 'MM-dd-yy HH:mm:ss'}}</label></td>
+                </tr>
+                <tr ng-repeat="data in vm.selectedLesson.previousVersion | orderBy: 'createdDate'">
+                    <td>{{data.teacher.name}}</td>
+                    <td>{{data.student[0].name}}</td>
+                    <td>{{data.signedInDate | date: 'MM-dd-yy HH:mm:ss'}}</td>
+                    <td>{{data.duration}}</td>
+                    <td>{{data.createdBy}}</td>
+                    <td>{{data.createdDate | date: 'MM-dd-yy HH:mm:ss'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

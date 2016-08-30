@@ -315,6 +315,10 @@ h1 {
     text-align: left;
 }
 
+.currentVersion td{
+    font-weight: bold;
+}
+
 /* Styling Welcome Screen */
 
 .welcomeMsg{
