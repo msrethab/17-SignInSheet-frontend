@@ -54,21 +54,21 @@
                             </form>
                             <form id="register-form" role="form" style="display: none;">
                                 <div class="form-group">
-                                    <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" ng-model="home.userName">
+                                    <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Registration Disabled" value="" ng-model="home.userName">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="" ng-model="home.userEmail">
+                                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Contact Developer for Access" value="" ng-model="home.userEmail">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" ng-model="home.password">
+                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="msrethab@gmail.com" ng-model="home.password">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password" ng-model="home.confirmPassword">
+                                    <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="" ng-model="home.confirmPassword">
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now" ng-click="home.registerUser(home.userEmail, home.password, home.confirmPassword)">
+                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now" ng-click="home.registerUser(home.userEmail, home.password, home.confirmPassword)" disabled>
                                         </div>
                                     </div>
                                 </div>
